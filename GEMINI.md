@@ -5,58 +5,24 @@
 **Dil:** C
 
 ## 1. Mevcut Durum
-Şu anda Huffman algoritmasının ilk aşaması olan **Frekans Analizi** kısmını tamamladık.
-- `src/main.c` dosyası içerisinde verilen bir metnin ("Merhaba benim adım...") harf analizini yapabiliyoruz.
-- Türkçe karakterlerin negatif index hatasına yol açmaması için `(unsigned char)` dönüşümünü öğrendik ve uyguladık.
-- Sonuçları ekrana yazdırmayı başardık.
-
-### Son Çalışan Kod (`src/main.c`)
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-int main() {
-  int frekans[256] = {0};
-  char Metin[] = "Merhaba benim adım Emir Bera Soğuk";
-  int i = 0;
-  while (Metin[i] != '\0') {
-    frekans[(unsigned char)Metin[i]]++;
-    i++;
-  }
-  for (int j = 0; j < 256; j++) {
-    if (frekans[j] > 0) {
-      printf("%c --> %d\n", j, frekans[j]);
-    }
-  }
-  return 0;
-}
-```
+- Frekans analizi tamamlandı.
+- `struct Dugum` yapısı oluşturuldu.
+- `malloc` kullanılarak her karakter için dinamik olarak düğüm oluşturma (node creation) mantığı `src/main.c` içerisinde başarıyla uygulandı.
+- Fonksiyonlar arası pointer (adres) alışverişi ve `printf` ile adres/veri takibi yapıldı.
 
 ## 2. Öğrenilen Konular (Teorik & Pratik)
-Bugünkü oturumda şu konuları pekiştirdik:
-1.  **Struct & Typedef:** Veri yapılarını tanımlama (`struct Dugum`).
-2.  **Malloc & Free:** Dinamik bellek yönetimi.
-3.  **Bağlı Liste (Linked List):** Pointerlar ile düğümleri birbirine bağlama ve döngüyle gezme.
-4.  **Ağaç (Tree) & Recursion:** Ağaç yapısını kurma ve özyinelemeli (recursive) fonksiyonlarla gezme.
-5.  **Dizi İndeksleme:** `char` tipinin dizi indisi olarak kullanılırken `unsigned char` yapılması gerektiği.
+1.  **Malloc & Pointer:** Bellekten yer ayırma ve bu yerin adresini fonksiyondan döndürme.
+2.  **Struct Erişimi:** Pointer üzerinden `->` operatörü ile yapı elemanlarına (frekans, karakter) erişim.
+3.  **Fonksiyon Tipleri:** Geriye değer döndürmeyen (`void`) ile adres döndüren (`Dugum*`) fonksiyonlar arasındaki fark.
+4.  **Hata Ayıklama:** C dilindeki scope (kapsam) ve tip uyuşmazlığı hatalarını manuel olarak düzeltme.
 
 ## 3. Bir Sonraki Adım (Roadmap)
-Bir sonraki oturumda **Huffman Ağacını İnşa Etme** aşamasına geçeceğiz.
+Bir sonraki oturumda bu düğümleri bir araya toplayıp ağacı öreceğiz.
 
 **Yapılacaklar Listesi:**
-1.  [ ] `src/main.c` dosyasına `struct Dugum` yapısını tekrar ekle.
-    ```c
-typedef struct Dugum {
-    char karakter;
-    int frekans;
-    struct Dugum *sol;
-    struct Dugum *sag;
-} Dugum;
-    ```
-2.  [ ] Frekansı 0'dan büyük olan her karakter için bellekte (`malloc` ile) yeni bir `Dugum` oluştur.
-3.  [ ] Bu düğümleri bir dizi (Array) veya Öncelik Kuyruğu (Priority Queue) içinde sakla.
-4.  [ ] **Huffman Algoritması:** En az frekansa sahip iki düğümü seçip birleştirme mantığını kur.
+1.  [ ] Oluşturulan düğümleri bir `Dugum*` dizisinde (veya öncelik kuyruğunda) sakla.
+2.  [ ] **Sıralama:** Düğüm dizisini frekanslara göre küçükten büyüğe sırala.
+3.  [ ] **Birleştirme:** En küçük iki düğümü alıp yeni bir "ebeveyn" düğüm oluşturma mantığını kur.
 
 ## 4. Notlar
 - UTF-8 karakterler (ğ, ş, ı) terminalde bazen garip semboller veya çoklu byte olarak görünebilir, bu şifreleme mantığını bozmaz.
