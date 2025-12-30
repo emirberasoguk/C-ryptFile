@@ -17,6 +17,7 @@ Dugum *dugum_olustur(int a, char b) {
   temp->sol = NULL;
   return temp;
 }
+char *kod_tablosu[256];
 
 Dugum *agac_olusturucu(Dugum *kese1, Dugum *kese2) {
   Dugum *yeni = (Dugum *)malloc(sizeof(Dugum));
@@ -26,7 +27,27 @@ Dugum *agac_olusturucu(Dugum *kese1, Dugum *kese2) {
   return yeni;
 }
 
+void kod_olusturucu(Dugum *kök, int derinlik, char kod[]) {
+  if (kök->sol == NULL && kök->sag == NULL) {
+    kod[derinlik] = '\0';
+    printf("Harf:%c\t%s\n", kök->karakter, kod);
+    unsigned char index = (unsigned char)kök->karakter;
+    kod_tablosu[index] = (char *)malloc(strlen(kod) + 1);
+    strcpy(kod_tablosu[index], kod);
+  }
+  if (kök->sol != NULL) {
+    kod[derinlik] = '0';
+    kod_olusturucu(kök->sol, derinlik + 1, kod);
+  }
+  if (kök->sag != NULL) {
+    kod[derinlik] = '1';
+    kod_olusturucu(kök->sag, derinlik + 1, kod);
+  }
+}
+
 int main() {
+  int derinlik;
+  char olusan_kod[256];
   Dugum *kese[256];
   int Frekans[256] = {0};
   char Metin[] = "Merhaba benim adım Emir Bera Soğuk";
@@ -75,5 +96,10 @@ int main() {
     }
   }
   printf("Kök Düğümün Frekansı:%d", kese[0]->frekans);
+  kod_olusturucu(kese[0], 0, olusan_kod);
+  printf("-----Şifrelenmiş Metin-----\n");
+  for (int i = 0; Metin[i] != '\0'; i++) {
+    printf("%s", kod_tablosu[(unsigned char)Metin[i]]);
+  }
   return 0;
 }
