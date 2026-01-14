@@ -24,6 +24,32 @@ C-ryptFile is a C-based terminal utility designed to encrypt personal files usin
 
 ---
 
+## Kurulum (Installation)
+
+### Gereksinimler (Requirements)
+Bu projeyi derlemek için sisteminizde bir C derleyicisine (GCC) ihtiyacınız vardır.
+To compile this project, you need a C compiler (GCC) installed on your system.
+
+### Adım 1: İndirme (Download)
+```bash
+git clone https://github.com/emirberasoguk/C-ryptFile.git
+cd C-ryptFile
+```
+
+### Adım 2: Derleme (Compile)
+Kaynak kodu derleyerek çalıştırılabilir dosyayı oluşturun:
+Compile the source code to create the executable:
+
+```bash
+# Klasör yoksa oluştur / Create directory if not exists
+mkdir -p bin
+
+# Derle / Compile
+gcc src/main.c -o bin/c-ryptfile
+```
+
+---
+
 ## Kullanım (Usage)
 
 ### Şifreleme (Encrypt)

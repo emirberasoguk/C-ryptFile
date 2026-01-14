@@ -45,16 +45,21 @@ void kod_olusturucu(Dugum *kök, int derinlik, char kod[]) {
   }
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+  if (argc != 4 ||
+      ((strcmp(argv[1], "--sifrele") != 0 && strcmp(argv[1], "--coz") != 0))) {
+    printf("Hatalı argüman kullanımı");
+    return 1;
+  }
   int derinlik;
   char olusan_kod[256];
   Dugum *kese[256];
   int Frekans[256] = {0};
-  char Metin[] = "Merhaba benim adım Emir Bera Soğuk";
+  char *anahtar = argv[3];
   int i = 0;
 
-  while (Metin[i] != '\0') {
-    Frekans[(unsigned char)Metin[i]]++;
+  while (anahtar[i] != '\0') {
+    Frekans[(unsigned char)anahtar[i]]++;
     i++;
   }
 
@@ -98,8 +103,8 @@ int main() {
   printf("Kök Düğümün Frekansı:%d", kese[0]->frekans);
   kod_olusturucu(kese[0], 0, olusan_kod);
   printf("-----Şifrelenmiş Metin-----\n");
-  for (int i = 0; Metin[i] != '\0'; i++) {
-    printf("%s", kod_tablosu[(unsigned char)Metin[i]]);
+  for (int i = 0; anahtar[i] != '\0'; i++) {
+    printf("%s", kod_tablosu[(unsigned char)anahtar[i]]);
   }
   return 0;
 }
